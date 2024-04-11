@@ -4,7 +4,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io/ioutil"
+	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
+	"github.com/aws/aws-sdk-go/service/sts"
+	"io"
+	"os"
 	"path"
 	"strings"
 	"sync"
@@ -86,7 +89,7 @@ func NewS3Datastore(conf Config) (*S3Bucket, error) {
 	}
 
 	d := defaults.Get()
-	creds := credentials.NewChainCredentials([]credentials.Provider{
+	providers := []credentials.Provider{
 		&credentials.StaticProvider{Value: credentials.Value{
 			AccessKeyID:     conf.AccessKey,
 			SecretAccessKey: conf.SecretKey,
@@ -98,7 +101,16 @@ func NewS3Datastore(conf Config) (*S3Bucket, error) {
 		endpointcreds.NewProviderClient(*d.Config, d.Handlers, conf.CredentialsEndpoint,
 			func(p *endpointcreds.Provider) { p.ExpiryWindow = credsRefreshWindow },
 		),
-	})
+	}
+
+	if len(os.Getenv("AWS_ROLE_ARN")) > 0 && len(os.Getenv("AWS_WEB_IDENTITY_TOKEN_FILE")) > 0 {
+		stsClient := sts.New(sess)
+		stsProvider := stscreds.NewWebIdentityRoleProviderWithOptions(stsClient, os.Getenv("AWS_ROLE_ARN"), "", stscreds.FetchTokenPath(os.Getenv("AWS_WEB_IDENTITY_TOKEN_FILE")))
+		// prepend sts provider to list of providers
+		providers = append([]credentials.Provider{stsProvider}, providers...)
+	}
+
+	creds := credentials.NewChainCredentials(providers)
 
 	if conf.RegionEndpoint != "" {
 		awsConfig.WithS3ForcePathStyle(true)
@@ -147,7 +159,7 @@ func (s *S3Bucket) Get(ctx context.Context, k ds.Key) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func (s *S3Bucket) Has(ctx context.Context, k ds.Key) (exists bool, err error) {
@@ -379,7 +391,7 @@ func (b *s3Batch) newPutJob(ctx context.Context, k ds.Key, value []byte) func() 
 
 func (b *s3Batch) newDeleteJob(ctx context.Context, objs []*s3.ObjectIdentifier) func() error {
 	return func() error {
-		resp, err := b.s.S3.DeleteObjects(&s3.DeleteObjectsInput{
+		resp, err := b.s.S3.DeleteObjectsWithContext(ctx, &s3.DeleteObjectsInput{
 			Bucket: aws.String(b.s.Bucket),
 			Delete: &s3.Delete{
 				Objects: objs,
