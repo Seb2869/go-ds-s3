@@ -27,7 +27,8 @@ The config file should include the following. This must be edited manually after
             "bucket": "$bucketname",
             "rootDirectory": "$bucketsubdirectory",
             "accessKey": "",
-            "secretKey": ""
+            "secretKey": "",
+            "keyTransform": "$keytransformmethod"
           },
           "mountpoint": "/blocks",
           "prefix": "s3.datastore",
@@ -53,7 +54,8 @@ If you are on another S3 compatible provider, e.g. Linode, then your config shou
             "rootDirectory": "$bucketsubdirectory",
             "regionEndpoint": "us-east-1.linodeobjects.com",
             "accessKey": "",
-            "secretKey": ""
+            "secretKey": "",
+            "keyTransform": "$keytransformmethod"
           },
           "mountpoint": "/blocks",
           "prefix": "s3.datastore",
