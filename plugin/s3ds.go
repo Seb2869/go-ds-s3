@@ -3,10 +3,10 @@ package plugin
 import (
 	"fmt"
 
-	s3ds "github.com/ipfs/go-ds-s3"
 	"github.com/ipfs/kubo/plugin"
 	"github.com/ipfs/kubo/repo"
 	"github.com/ipfs/kubo/repo/fsrepo"
+	s3ds "github.com/ourzora/go-ds-s3"
 )
 
 var Plugins = []plugin.Plugin{

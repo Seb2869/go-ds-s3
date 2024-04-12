@@ -32,10 +32,12 @@ docker run -d -v $ipfs_staging:/export -v $ipfs_data:/data/ipfs -p 4001:4001 -p 
 Note that we pass a `.env` file that contains the following environment variables:
 
 ```
-AWS_REGION=<my_region>
-CLUSTER_S3_BUCKET=<my_bucket>
+BUCKET_REGON=<my_region>
+BUCKET=<my_bucket>
 CLUSTER_PEERNAME=<node_name>
-CLUSTER_AWS_KEY=<aws_key>
-CLUSTER_AWS_SECRET=<aws_secret>
+BUCKET_ACCESS_KEY=<aws_key>
+BUCKET_SECRET_KEY=<aws_secret>
+BUCKET_ENDPOINT=<url_to_s3>
+KEY_TRANSFORM=<key_transform>
 ```
 

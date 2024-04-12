@@ -6,7 +6,7 @@ This is an implementation of the datastore interface backed by amazon s3.
 
 ## Quickstart
 
-  1. Grab a plugin release from the [releases](https://github.com/ipfs/go-ds-s3/releases) section matching your Kubo version and install the plugin file in `~/.ipfs/plugins`.
+  1. Grab a plugin release from the [releases](https://github.com/ourzora/go-ds-s3/releases) section matching your Kubo version and install the plugin file in `~/.ipfs/plugins`.
   2. Follow the instructions in the plugin's [README.md](go-ds-s3-plugin/README.md)
 
 
@@ -50,10 +50,10 @@ As go plugins can be finicky to correctly compile and install, you may want to c
 > cd kubo
 
 # Pull in the datastore plugin (you can specify a version other than latest if you'd like).
-> go get github.com/ipfs/go-ds-s3@latest
+> go get github.com/ourzora/go-ds-s3@latest
 
 # Add the plugin to the preload list.
-> echo -en "\ns3ds github.com/ipfs/go-ds-s3/plugin 0" >> plugin/loader/preload_list
+> echo -en "\ns3ds github.com/ourzora/go-ds-s3/plugin 0" >> plugin/loader/preload_list
 
 # ( this first pass will fail ) Try to build kubo with the plugin
 > make build
