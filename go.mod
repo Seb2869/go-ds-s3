@@ -1,8 +1,6 @@
 module github.com/ourzora/go-ds-s3
 
-go 1.21
-
-toolchain go1.21.7
+go 1.20
 
 require (
 	github.com/aws/aws-sdk-go v1.45.24

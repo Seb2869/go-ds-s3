@@ -16,7 +16,6 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
@@ -54,8 +53,6 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-# macos test fail with dist-built ipfs.
-#          - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
