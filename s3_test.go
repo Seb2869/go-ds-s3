@@ -19,9 +19,9 @@ func TestSuiteLocalS3(t *testing.T) {
 		t.Skipf("skipping test suit; LOCAL_S3 is not set.")
 	}
 
-  localBucketName, localBucketNameSet := os.LookupEnv("LOCAL_BUCKET_NAME")
-  if !localBucketNameSet {
-    localBucketName = fmt.Sprintf("localbucketname%d", time.Now().UnixNano())
+	localBucketName, localBucketNameSet := os.LookupEnv("LOCAL_BUCKET_NAME")
+	if !localBucketNameSet {
+		localBucketName = fmt.Sprintf("localbucketname%d", time.Now().UnixNano())
 	}
 
 	config := Config{
