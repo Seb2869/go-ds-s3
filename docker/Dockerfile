@@ -16,6 +16,7 @@ ENV SRC_DIR /kubo
 
 # Move to kubo folder
 WORKDIR $SRC_DIR
+RUN git checkout release-v0.23.0
 
 # Install the plugin and build ipfs
 RUN go get github.com/ourzora/go-ds-s3@latest
