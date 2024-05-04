@@ -16,7 +16,7 @@ ENV SRC_DIR /kubo
 
 # Move to kubo folder
 WORKDIR $SRC_DIR
-RUN git checkout release-v0.23.0
+RUN git checkout release-v0.28.0
 
 # Install the plugin and build ipfs
 RUN go get github.com/ourzora/go-ds-s3@latest
@@ -27,7 +27,7 @@ RUN make build
 RUN make install
 
 # The actual IPFS image we will use
-FROM ipfs/kubo:v0.23.0
+FROM ipfs/kubo:v0.28.0
 ENV SRC_DIR /kubo
 
 # We copy the new binaries we built in the 'builder' stage (--from=builder)
